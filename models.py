@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 
-from .database import Base
+from database import Base
 
 
 
@@ -11,13 +11,13 @@ from .database import Base
 
 class SearchQuery(Base):
 
-    __tablename__ = "query"
+    __tablename__ = "queries"
 
 
     id = Column(Integer, primary_key=True, index=True)
     query = Column(String, index=True)
 
-    owner = relationship("Url", back_populates="owner")
+    owner = relationship("Url", back_populates="urls")
 
 
 class Url(Base):
@@ -26,12 +26,12 @@ class Url(Base):
 
 
     id = Column(Integer, primary_key=True, index=True)
-    Url = Column(String, unique=True, index=True)
-    description = Column(String)
+    link = Column(String, unique=True, index=True)
+    descreption = Column(String)
     title = Column(String)
-    owner_id = Column(Integer, ForeignKey("urls.id"))
+    owner_id = Column(Integer, ForeignKey("queries.id"))
 
-    items = relationship("SearchQuery", back_populates="urls")
+    urls = relationship("SearchQuery", back_populates="owner")
 
 
 

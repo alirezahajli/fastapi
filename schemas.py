@@ -3,35 +3,32 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class ItemBase(BaseModel):
-    title: str
-    description: Optional[str] = None
-
-
-class ItemCreate(ItemBase):
-    pass
-
-
-class Item(ItemBase):
+class UrlBase(BaseModel):
     id: int
+    descreption: Optional[str] = None
+    title: str
+    link: str
     owner_id: int
+    
+
+class Url(UrlBase):
+    id: int
 
     class Config:
         orm_mode = True
 
 
-class UserBase(BaseModel):
-    email: str
+class SearchQueryBase(BaseModel):
+    query: str
+    
+
+class SearchQueryCreate(SearchQueryBase):
+   query: str
 
 
-class UserCreate(UserBase):
-    password: str
-
-
-class User(UserBase):
+class SearchQuery(SearchQueryBase):
     id: int
-    is_active: bool
-    items: List[Item] = []
+    urls: List[Url] = []
 
     class Config:
         orm_mode = True
