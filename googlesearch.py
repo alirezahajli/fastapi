@@ -28,7 +28,7 @@ class FetchGoogleSearchResult:
                 "http://www.google.com/search?q="
                 + self.query
                 + "&start="
-                + str((page - 1) * 10)
+                + str((page - 1) * 5)
             )
             driver.get(url)
             soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -54,9 +54,11 @@ class FetchGoogleSearchResult:
         return self.extracted_data_dict
 
     def get_link(self, messy_link):
-        messy_link = str(messy_link).split("<")[2]
-        regular_link = messy_link.split(">")[1]
-        return regular_link
+        if str(messy_link) != "None":
+            messy_link = str(messy_link).split("<")[2]
+            regular_link = messy_link.split(">")[1]
+            return regular_link
+        pass
 
     def get_descreption(self, messy_descreption):
         try:
@@ -67,5 +69,7 @@ class FetchGoogleSearchResult:
             pass
 
     def get_title(self, messy_title):
-        regular_title = str(messy_title).split(">")[1][:-4]
-        return regular_title
+        if str(messy_title) != "None":
+            regular_title = str(messy_title).split(">")[1][:-4]
+            return regular_title
+        pass

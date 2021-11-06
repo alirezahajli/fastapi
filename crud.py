@@ -1,12 +1,19 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import and_
 
 
 import models, schemas
 
 
-def get_url_by_id(db: Session, url_id: int):
+def url_exist(db: Session, url_owner_id: int, url_link: str):
 
-    return db.query(models.Url).filter(models.Url.id == url_id).first()
+    if (
+        db.query(models.Url)
+        .filter(and_(models.Url.owner_id == url_owner_id, models.Url.link == url_link))
+        .first()
+    ):
+        return True
+    return False
 
 
 def get_url_by_title(db: Session, title: str):
@@ -24,7 +31,7 @@ def get_urls(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Url).offset(skip).limit(limit).all()
 
 
-def create_url(db: Session, url: schemas.Url):
+def create_url(db: Session, url: schemas.UrlCreate):
 
     db_url = models.Url(
         link=url["link"],
@@ -52,7 +59,7 @@ def get_search_query_by_query(db: Session, search_query_query: str):
     )
 
 
-def create_search_query(db: Session, search_query: schemas.SearchQueryCreate):
+def create_search_query(db: Session, search_query: schemas.QueryCreate):
     db_search_query = models.SearchQuery(query=search_query.query)
     db.add(db_search_query)
     db.commit()
