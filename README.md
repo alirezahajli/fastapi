@@ -4,6 +4,6 @@
 - #### APIs has implemented by FastApi[^1].
 - #### Google has crawled by selenium and beautifulsoup.
 
-[^1]: [Contribution guidelines for this project](https://sqlmodel.tiangolo.com/tutorial/fastapi/multiple-models//).
+[^1]: [Contribution guidelines for this project](https://sqlmodel.tiangolo.com/tutorial/fastapi/relationships/).
 
 
