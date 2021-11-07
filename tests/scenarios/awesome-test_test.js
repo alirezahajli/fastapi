@@ -43,5 +43,5 @@ Scenario('Verify queries with DELETE method', async () => {
     await assert.equal(res.data.query, headers.query);
     await I.sendDeleteRequest(`/search_queries/${res.data.id}`);
     const res_after_delete = await I.sendGetRequest(`/search_queries/${headers.query}`)
-    await assert.equal(res.data.detail, 'Query not found')
+    await assert.equal(res_after_delete.data.detail, 'Query not found')
 })
