@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -21,7 +21,7 @@ class FetchGoogleSearchResult:
         return driver
 
     @property
-    def fetch(self) -> List:
+    def fetch(self) -> Dict:
         driver = self.set_up_driver()
         for page in range(1, self.number_of_page + 1):
             url = (
@@ -53,14 +53,14 @@ class FetchGoogleSearchResult:
         driver.close()
         return self.extracted_data_dict
 
-    def get_link(self, messy_link):
+    def get_link(self, messy_link) -> str:
         if str(messy_link) != "None":
             messy_link = str(messy_link).split("<")[2]
             regular_link = messy_link.split(">")[1]
             return regular_link
         pass
 
-    def get_descreption(self, messy_descreption):
+    def get_descreption(self, messy_descreption) -> str:
         try:
             if len(messy_descreption.find_all("span")) > 1:
                 return messy_descreption.find_all("span")[-1].get_text()
@@ -68,7 +68,7 @@ class FetchGoogleSearchResult:
         except:
             pass
 
-    def get_title(self, messy_title):
+    def get_title(self, messy_title) -> str:
         if str(messy_title) != "None":
             regular_title = str(messy_title).split(">")[1][:-4]
             return regular_title

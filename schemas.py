@@ -12,7 +12,6 @@ class UrlBase(SQLModel):
 class Url(UrlBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
-    # queries: List["Query"] = Relationship(back_populates="url")
     query: Optional["Query"] = Relationship(back_populates="urls")
 
 
@@ -34,13 +33,10 @@ class UrlUpdate(SQLModel):
 class QueryBase(SQLModel):
     query: str
 
-    # url_id: Optional[int] = Field(default=None, foreign_key="url.id")
-
 
 class Query(QueryBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
-    # url: Optional[Url] = Relationship(back_populates="queries")
     urls: List["Url"] = Relationship(back_populates="query")
 
 
