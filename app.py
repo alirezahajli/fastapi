@@ -1,8 +1,7 @@
 from typing import List
 from fastapi import Depends, FastAPI, HTTPException, Query
-from sqlalchemy.orm import Session, query
 
-import crud, models, schemas
+import schemas
 from googlesearch import FetchGoogleSearchResult
 from database import SessionLocal, engine
 
@@ -34,7 +33,7 @@ def get_google_search_result(query):
             if data != None:
 
                 db_url = schemas.Url(
-                    descreption=crawled_data[data]["descreption"],
+                    description=crawled_data[data]["description"],
                     title=crawled_data[data]["title"],
                     link=crawled_data[data]["link"],
                     query_id=query.id,
@@ -60,6 +59,10 @@ def read_search_queries_with_query(
     session: Session = Depends(get_session),
     query_name: str,
 ):
+
+    query_exist = session.get(schemas.Query, query_name)
+    if not query_exist:
+        raise HTTPException(status_code=404, detail="Query not found")
     query = session.exec(
         select(schemas.Query).where(schemas.Query.query == query_name)
     ).first()
@@ -75,7 +78,7 @@ def create_query(
     statement = select(schemas.Query).where(schemas.Query.query == query.query)
     query_exist = session.exec(statement).first()
     if query_exist:
-        raise HTTPException(status_code=404, detail="query already exist.")
+        raise HTTPException(status_code=404, detail="Query already exist.")
     db_query = schemas.Query.from_orm(query)
     session.add(db_query)
     session.commit()
