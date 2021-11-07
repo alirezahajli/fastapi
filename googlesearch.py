@@ -40,7 +40,7 @@ class FetchGoogleSearchResult:
                     "title": self.get_title(
                         result_site.find("h3", class_="LC20lb DKV0Md")
                     ),
-                    "descreption": self.get_descreption(
+                    "description": self.get_description(
                         result_site.find(
                             "div", class_="VwiC3b yXK7lf MUxGbd yDYNvb lyLwlc lEBKkf"
                         )
@@ -60,11 +60,11 @@ class FetchGoogleSearchResult:
             return regular_link
         pass
 
-    def get_descreption(self, messy_descreption) -> str:
+    def get_description(self, messy_description) -> str:
         try:
-            if len(messy_descreption.find_all("span")) > 1:
-                return messy_descreption.find_all("span")[-1].get_text()
-            return messy_descreption.find_all("span")[0].get_text()
+            if len(messy_description.find_all("span")) > 1:
+                return messy_description.find_all("span")[-1].get_text()
+            return messy_description.find_all("span")[0].get_text()
         except:
             pass
 

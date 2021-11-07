@@ -3,7 +3,7 @@ from sqlmodel import Field, Relationship, Session, SQLModel, create_engine, sele
 
 
 class UrlBase(SQLModel):
-    descreption: Optional[str] = None
+    description: Optional[str] = None
     title: str
     link: str
     query_id: Optional[int] = Field(default=None, foreign_key="query.id")
@@ -25,7 +25,7 @@ class UrlRead(UrlBase):
 
 class UrlUpdate(SQLModel):
     id: Optional[int] = None
-    descreption: Optional[str] = None
+    description: Optional[str] = None
     title: Optional[str] = None
     link: Optional[str] = None
 
