@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<ns2:test-suite xmlns:ns2='urn:model.allure.qatools.yandex.ru' start='1636002803918' stop='1636002810455'>
+    <name>codeceptjs:</name>
+    <title>codeceptjs:</title>
+    <test-cases>
+        <test-case start='1636002804515' status='passed' stop='1636002810427'>
+            <name>test something</name>
+            <title>test something</title>
+            <labels/>
+            <parameters/>
+            <steps>
+                <step start='1636002804517' status='passed' stop='1636002810135'>
+                    <name>I am on page "/codeceptjs"</name>
+                    <title>I am on page "/codeceptjs"</title>
+                    <attachments/>
+                    <steps/>
+                </step>
+                <step start='1636002810136' status='passed' stop='1636002810427'>
+                    <name>I see "Supercharged End 2 End testing for NodeJS"</name>
+                    <title>I see "Supercharged End 2 End testing for NodeJS"</title>
+                    <attachments/>
+                    <steps/>
+                </step>
+            </steps>
+            <attachments/>
+        </test-case>
+    </test-cases>
+</ns2:test-suite>
