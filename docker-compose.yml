@@ -1,0 +1,73 @@
+version: '3'
+services:
+  db:
+    container_name: postgresql_db
+    image: postgres:13.4
+    restart: on-failure
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    volumes:
+      - ./pg:/var/lib/postgresql/data
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+  
+    #  selenium:
+    #    image: selenium/standalone-chrome:3.14.0-beryllium
+    #    container_name: selenium
+    #    shm_size: 2g
+    #    ports:
+    #      - 4444:4444
+    #  codecept:
+    #    build:
+    #      context: ./tests
+    #      dockerfile: docker/codecept.Dockerfile
+    #    container_name: codeceptjs
+    # network_mode: host
+    #    volumes:
+    #      - ./tests:/tests
+  web:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --reload
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+
+    depends_on:
+      - db
+    restart: on-failure
+
+  master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master
+
+  worker:
+    image: locustio/locust
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host master
+
+
+volumes:
+  postgres: null
+  pgadmin: null
+  locust_test: null
